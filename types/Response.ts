@@ -7,7 +7,23 @@ export interface Response<T> {
   error: null | string;
 }
 
+export interface UserCreationData {
+  id: string;
+  name: string;
+  ext: string;
+  phone: string;
+  email: string;
+  dateOfBirth: string;
+  password: string;
+  skills: Array<{
+    tags: string[];
+    field: string;
+  }>;
+  createdAt: string;
+  updatedAt: string;
+}
 
+<<<<<<< HEAD
 export type UsersApiResponse = {
   users: Users[];
   currentPage: number;
@@ -27,6 +43,9 @@ export interface Users {
  dateOfBirth:string,
  password:string,
 }
+=======
+export type UserCreationResponse = Response<UserCreationData>;
+>>>>>>> 00d321bca864d07acaf4050a5cb903ff7e591ab4
 
 export interface ImgResponse {
   success: boolean;

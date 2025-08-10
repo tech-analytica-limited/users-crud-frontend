@@ -25,8 +25,8 @@ interface Step1Props {
 export const Step1 = ({ onNext }: Step1Props) => {
   const { formData, updateFormData } = useUserFormStore();
   const [phoneValue, setPhoneValue] = useState(
-    formData.ext && formData.phoneNumber 
-      ? `${formData.ext}${formData.phoneNumber}` 
+    formData.ext && formData.phone
+      ? `${formData.ext}${formData.phone}`
       : ''
   );
 
@@ -34,7 +34,7 @@ export const Step1 = ({ onNext }: Step1Props) => {
     resolver: zodResolver(Step1Schema),
     defaultValues: {
       ext: formData.ext || '',
-      phoneNumber: formData.phoneNumber || '',
+      phone: formData.phone || '',
     },
   });
 
@@ -55,17 +55,17 @@ export const Step1 = ({ onNext }: Step1Props) => {
           const countryCode = `+${match[1]}`;
           const phoneNumber = value.replace(countryCode, '');
           form.setValue('ext', countryCode);
-          form.setValue('phoneNumber', phoneNumber);
+          form.setValue('phone', phoneNumber);
           // Clear any previous errors
-          form.clearErrors(['ext', 'phoneNumber']);
+          form.clearErrors(['ext', 'phone']);
         }
       }
     } else {
       setPhoneValue('');
       form.setValue('ext', '');
-      form.setValue('phoneNumber', '');
+      form.setValue('phone', '');
       // Clear errors when input is cleared
-      form.clearErrors(['ext', 'phoneNumber']);
+      form.clearErrors(['ext', 'phone']);
     }
   };
 
@@ -88,12 +88,12 @@ export const Step1 = ({ onNext }: Step1Props) => {
               onChange={handlePhoneChange}
               placeholder="Enter phone number"
             />
-            {form.formState.errors.phoneNumber && (
+            {form.formState.errors.phone && (
               <p className="text-sm font-medium text-destructive">
-                {form.formState.errors.phoneNumber.message}
+                {form.formState.errors.phone.message}
               </p>
             )}
-            {!form.formState.errors.phoneNumber && form.formState.errors.ext && (
+            {!form.formState.errors.phone && form.formState.errors.ext && (
               <p className="text-sm font-medium text-destructive">
                 {form.formState.errors.ext.message}
               </p>
@@ -102,7 +102,7 @@ export const Step1 = ({ onNext }: Step1Props) => {
 
           {/* Hidden fields for form validation */}
           <input type="hidden" {...form.register('ext')} />
-          <input type="hidden" {...form.register('phoneNumber')} />
+          <input type="hidden" {...form.register('phone')} />
 
           <div className="flex justify-end">
             <Button type="submit" className="bg-primary text-white">
