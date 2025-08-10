@@ -15,7 +15,7 @@ interface UserFormState {
 const initialFormData: Partial<User> = {
   name: '',
   ext: '',
-  phoneNumber: '',
+  phone: '',
   email: '',
   dateOfBirth: '',
   password: '',

@@ -6,7 +6,7 @@ export const UserSchema = z.object({
     .min(2, "Name is required")
     .max(100, "Name must be less than 100 characters"),
   ext: z.string().min(1, "Phone country code is required"),
-  phoneNumber: z.string().min(5, "Phone number is required"),
+  phone: z.string().min(5, "Phone number is required"),
   email: z.email("Email is required"),
   dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Date of Birth must be selected",
