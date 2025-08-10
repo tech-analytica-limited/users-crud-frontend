@@ -13,7 +13,7 @@ export const UserSchema = z.object({
   phoneNumber: z.string().min(5, "Phone number is required"),
   email: z.email("Email is required"),
   dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Date of Birth must be a valid date in ISO format",
+    message: "Date of Birth must be selected",
   }),
   password: z.string().min(6, "Password must be at least 6 characters long"),
   skills: z.array(

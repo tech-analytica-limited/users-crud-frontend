@@ -18,7 +18,7 @@ export const Step2Schema = z.object({
     .max(100, "Name must be less than 100 characters"),
   email: z.email("Email is required"),
   dateOfBirth: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: "Date of Birth must be a valid date in ISO format",
+    message: "Date of Birth must be selected",
   }),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });

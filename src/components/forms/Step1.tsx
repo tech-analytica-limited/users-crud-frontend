@@ -57,12 +57,16 @@ export const Step1 = ({ onNext }: Step1Props) => {
           const phoneNumber = value.replace(countryCode, '');
           form.setValue('ext', countryCode);
           form.setValue('phoneNumber', phoneNumber);
+          // Clear any previous errors
+          form.clearErrors(['ext', 'phoneNumber']);
         }
       }
     } else {
       setPhoneValue('');
       form.setValue('ext', '');
       form.setValue('phoneNumber', '');
+      // Clear errors when input is cleared
+      form.clearErrors(['ext', 'phoneNumber']);
     }
   };
 
@@ -100,9 +104,14 @@ export const Step1 = ({ onNext }: Step1Props) => {
               onChange={handlePhoneChange}
               placeholder="Enter phone number"
             />
-            {(form.formState.errors.ext || form.formState.errors.phoneNumber) && (
+            {form.formState.errors.phoneNumber && (
               <p className="text-sm font-medium text-destructive">
-                {form.formState.errors.ext?.message || form.formState.errors.phoneNumber?.message}
+                {form.formState.errors.phoneNumber.message}
+              </p>
+            )}
+            {!form.formState.errors.phoneNumber && form.formState.errors.ext && (
+              <p className="text-sm font-medium text-destructive">
+                {form.formState.errors.ext.message}
               </p>
             )}
           </div>
