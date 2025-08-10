@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 
 export interface Response<T> {
-  success: boolean;
+   success: boolean;
   message: string;
   data: T;
   error: null | string;
@@ -23,6 +23,25 @@ export interface UserCreationData {
   updatedAt: string;
 }
 
+export type UsersApiResponse = {
+  users: Users[];
+  currentPage: number;
+  limit: number;
+  totalAds: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+};
+
+export interface Users {
+  id:string,
+ name:string,
+ ext:number,
+ phone:number,
+ email:string,
+ dateOfBirth:string,
+ password:string,
+}
 export type UserCreationResponse = Response<UserCreationData>;
 
 export interface ImgResponse {
