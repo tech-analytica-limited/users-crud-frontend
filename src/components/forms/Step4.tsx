@@ -14,6 +14,7 @@ import { User } from "@/schemas/user";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Upload } from "lucide-react";
+import { Response, UserCreationResponse } from "../../../types/Response";
 
 interface Step4Props {
   onPrev: () => void;
@@ -32,17 +33,24 @@ export const Step4 = ({ onPrev }: Step4Props) => {
         dateOfBirth: new Date(data.dateOfBirth).toISOString(),
       };
 
-      return await post("/user", payload);
+      return await post<UserCreationResponse>("/users/create", payload);
     },
-    onSuccess: () => {
-      toast.success("User created successfully!");
-      resetForm();
-      router.push("/users"); // Adjust the route as needed
+    onSuccess: (response) => {
+      console.log("User creation response:", response);
+
+      if (response.success) {
+        toast.success(response.message || "User created successfully!");
+        resetForm();
+        router.push("/users");
+      } else {
+        toast.error(response.message || "Failed to create user");
+      }
     },
     onError: (error) => {
       if (error instanceof AxiosError && error.response?.data) {
+        const errorData = error.response.data as UserCreationResponse;
         toast.error(
-          `Error: ${error.response?.data.message || "Failed to create user"}`,
+          `Error: ${errorData.message || "Failed to create user"}`,
         );
       } else {
         toast.error("An unexpected error occurred!");
@@ -147,7 +155,7 @@ export const Step4 = ({ onPrev }: Step4Props) => {
               <span className="font-medium">Phone Number:</span>
               <p>
                 {formData.ext}
-                {formData.phoneNumber || "Not provided"}
+                {formData.phone || "Not provided"}
               </p>
             </div>
           </CardContent>
