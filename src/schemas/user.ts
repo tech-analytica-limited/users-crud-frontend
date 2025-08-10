@@ -1,10 +1,6 @@
 import { z } from "zod";
 
 export const UserSchema = z.object({
-  id: z
-    .string()
-    .min(1, "ID is required")
-    .max(10, "ID must be less than 10 characters"),
   name: z
     .string()
     .min(2, "Name is required")

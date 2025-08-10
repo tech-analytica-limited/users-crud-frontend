@@ -7,7 +7,7 @@ export interface Config {
 // const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://192.168.68.107:3005";
 
 // development api url
-const apiUrl = "https://apindanai.taldev.xyz";
+const apiUrl = "http://localhost:3000";
 
 const config: Config = {
   apiUrl,
