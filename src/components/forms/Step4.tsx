@@ -37,7 +37,7 @@ export const Step4 = ({ onPrev }: Step4Props) => {
     onSuccess: () => {
       toast.success("User created successfully!");
       resetForm();
-      // router.push("/users"); // Adjust the route as needed
+      router.push("/users");
     },
     onError: (error) => {
       if (error instanceof AxiosError && error.response?.data) {
