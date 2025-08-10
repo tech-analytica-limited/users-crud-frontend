@@ -180,7 +180,7 @@ export default function Page() {
 
   const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1))
   const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-  const handleAddUser = () => router.push("/user/create")
+  const handleAddUser = () => router.push("/users/create")
 
   const getDoBColor = () => "bg-gray-100 text-gray-800 hover:bg-gray-100"
 
