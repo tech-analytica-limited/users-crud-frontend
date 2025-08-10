@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, ChevronRight, Mail, Phone, Plus, MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 // Mock user data
 const mockUsers = [
@@ -186,13 +187,9 @@ export default function Page() {
 
   const getSkillColor = () => "bg-green-100 text-green-800 hover:bg-green-100"
 
-  const handleEdite=()=>{
-    console.log('handle edite button')
-  }
 
-
-  const handleDelete=()=>{
-        console.log('handle delete button')
+  const handleDelete=(id:number)=>{
+        console.log('handle delete button', id)
 
   }
 
@@ -223,8 +220,13 @@ export default function Page() {
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="ghost" onClick={()=>handleEdite()}>Edit</Button>
-                  <Button size="sm" variant="destructive" onClick={()=>handleDelete()}>Delete</Button>
+                  <Button size="sm" variant="ghost">
+                    <Link href={`/users/${user.id}`}>
+                    Edit
+                    </Link>
+                    
+                    </Button>
+                  <Button size="sm" variant="destructive" onClick={()=>handleDelete(user.id)}>Delete</Button>
                 </div>
               </div>
             </CardHeader>

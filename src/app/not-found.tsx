@@ -34,24 +34,6 @@ router.back()
           </p>
         </div>
 
-        {/* Search Section */}
-        {/* <Card className="max-w-md mx-auto">
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                <Search className="h-4 w-4" />
-                Search for what you need
-              </div>
-              <div className="flex gap-2">
-                <Input placeholder="Search pages, users, content..." className="flex-1" />
-                <Button size="sm">
-                  <Search className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
-
         {/* Navigation Options */}
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
