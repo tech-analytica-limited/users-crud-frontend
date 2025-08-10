@@ -1,13 +1,9 @@
 import { z } from 'zod';
 
-// Step 1: ID and Phone Number
+// Step 1: Phone Number only
 export const Step1Schema = z.object({
-  id: z
-    .string()
-    .min(1, "ID is required")
-    .max(10, "ID must be less than 10 characters"),
-  ext: z.string().min(1, "Phone country code is required"),
-  phoneNumber: z.string().min(5, "Phone number is required"),
+  ext: z.string().min(1, "Please select a country code"),
+  phoneNumber: z.string().min(5, "Please enter a valid phone number"),
 });
 
 // Step 2: Personal Information

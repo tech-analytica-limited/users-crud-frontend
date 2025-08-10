@@ -137,24 +137,18 @@ export const Step4 = ({ onPrev }: Step4Props) => {
           </CardContent>
         </Card>
 
-        {/* Basic Information */}
+        {/* Phone Information */}
         <Card>
           <CardHeader>
-            <CardTitle>Basic Information</CardTitle>
+            <CardTitle>Phone Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <span className="font-medium">User ID:</span>
-                <p>{formData.id || "Not provided"}</p>
-              </div>
-              <div>
-                <span className="font-medium">Phone Number:</span>
-                <p>
-                  {formData.ext}
-                  {formData.phoneNumber || "Not provided"}
-                </p>
-              </div>
+            <div>
+              <span className="font-medium">Phone Number:</span>
+              <p>
+                {formData.ext}
+                {formData.phoneNumber || "Not provided"}
+              </p>
             </div>
           </CardContent>
         </Card>

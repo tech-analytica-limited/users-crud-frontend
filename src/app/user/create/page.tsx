@@ -10,7 +10,7 @@ import { Step2 } from '@/components/forms/Step2';
 import { Step3 } from '@/components/forms/Step3';
 import { Step4 } from '@/components/forms/Step4';
 
-const steps = ['Basic Info', 'Personal Info', 'Skills', 'Review'];
+const steps = ['Phone', 'Personal Info', 'Skills', 'Review'];
 
 const CreateUserPage = () => {
   const router = useRouter();

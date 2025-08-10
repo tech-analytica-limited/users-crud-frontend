@@ -33,7 +33,6 @@ export const Step1 = ({ onNext }: Step1Props) => {
   const form = useForm<Step1Data>({
     resolver: zodResolver(Step1Schema),
     defaultValues: {
-      id: formData.id || '',
       ext: formData.ext || '',
       phoneNumber: formData.phoneNumber || '',
     },
@@ -73,27 +72,12 @@ export const Step1 = ({ onNext }: Step1Props) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold">Step 1: Basic Information</h2>
-        <p className="text-gray-600">Please provide your ID and phone number</p>
+        <h2 className="text-2xl font-bold">Step 1: Phone Number</h2>
+        <p className="text-gray-600">Please provide your phone number</p>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          {/* ID Field */}
-          <FormField
-            control={form.control}
-            name="id"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>User ID*</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter user ID" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           {/* Phone Number with Country Code */}
           <div className="space-y-2">
             <FormLabel>Phone Number*</FormLabel>
