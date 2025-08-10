@@ -177,12 +177,10 @@ interface UserInterface {
   email: string
   phone: string
   DoB: string
-  skills: string
+  skillsField: string
+  skillsTags: string
   location: string
   avatar: string
-  bio: string
-  department: string
-  joinDate: string
 }
 
 export default function EditUserPage() {
@@ -196,11 +194,10 @@ export default function EditUserPage() {
     email: "",
     phone: "",
     DoB: "",
-    skills: "",
+    skillsField: "",
+    skillsTags: "",
     location: "",
     password: "",
-    department: "",
-    joinDate: "",
   })
 
 console.log("id",params)
@@ -315,27 +312,26 @@ console.log("formData", formData)
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="DoB">Date of Birth</Label>
-                  {/* <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => handleInputChange("location", e.target.value)}
-                    placeholder="Enter location"
-                  /> */}
-                      {/* Date of Birth */}
- 
                   <Input value={formData.DoB} onChange={(e) => handleInputChange("DoB", e.target.value)} id="DoB" type="date" />
-
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-           
                 <div className="space-y-2">
-                  <Label htmlFor="skills">Skills</Label>
+                  <Label htmlFor="skills">Skills Field</Label>
                   <Input
-                    id="skills"
-                    value={formData.skills}
-                    onChange={(e) => handleInputChange("skills", e.target.value)}
-                    placeholder="Enter location"
+                    id="skillsField"
+                    value={formData.skillsField}
+                    onChange={(e) => handleInputChange("skillsField", e.target.value)}
+                    placeholder="Enter skills Field"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="skills">Skills Tags</Label>
+                  <Input
+                    id="skillsTags"
+                    value={formData.skillsTags}
+                    onChange={(e) => handleInputChange("skillsTags", e.target.value)}
+                    placeholder="Enter skills Tags"
                   />
                 </div>
                 <div className="space-y-2">
@@ -345,7 +341,7 @@ console.log("formData", formData)
                     type="password"
                     value={formData.password}
                     onChange={(e) => handleInputChange("password", e.target.value)}
-                    placeholder="Enter location"
+                    placeholder="Enter password"
                   />
                 </div>
               </div>
