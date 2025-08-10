@@ -1,32 +1,42 @@
+"use client";
 
-"use client"
-
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, ChevronRight, Mail, Phone, Plus, MapPin } from "lucide-react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { get } from "@/lib/api/handlers"
-import { User } from "@/schemas/user"
-import { useQuery } from "@tanstack/react-query"
-// import { Response, UsersApiResponse } from "../../../types/Response"
-
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Mail,
+  Phone,
+  Plus,
+  MapPin,
+  User,
+  Briefcase,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { get } from "@/lib/api/handlers";
+import { useQuery } from "@tanstack/react-query";
+import DeleteConfirmationDialog from "@/components/DeleteConfirmationDialog";
 
 interface Users {
-  id:string,
- name:string,
- ext:number,
- phone:number,
- email:string,
- dateOfBirth:string,
- password:string,
+  id: string;
+  name: string;
+  ext: number;
+  phone: number;
+  email: string;
+  dateOfBirth: string;
+  password: string;
+  skills: Array<{
+    field: string;
+    tags: string[];
+  }>;
 }
-interface UsersApiResponse  {
-  success:boolean,
-message:string,
+
+interface UsersApiResponse {
+  success: boolean;
+  message: string;
   data: Users[];
   currentPage: number;
   limit: number;
@@ -34,60 +44,54 @@ message:string,
   totalPages: number;
   hasNext: boolean;
   hasPrev: boolean;
-};
+}
 
 export default function Page() {
-  const router = useRouter()
-  const [currentPage, setCurrentPage] = useState(1)
-  const rowsPerPage = 6
+  const router = useRouter();
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 6;
 
   const getCarouselData = async (page: number) => {
-    const response = await get<UsersApiResponse>(`/users?page=${page}&limit=${rowsPerPage}`)
+    const response = await get<UsersApiResponse>(
+      `/users?page=${page}&limit=${rowsPerPage}`,
+    );
     if (!response.success || !response.data) {
-      throw new Error(response.message || "Failed to fetch users")
+      throw new Error(response.message || "Failed to fetch users");
     }
-    return response
-  }
+    return response;
+  };
 
-  const { 
-    data, 
-    isLoading, 
-    isError, 
-    refetch 
-  } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["users", currentPage, rowsPerPage],
     queryFn: () => getCarouselData(currentPage),
     staleTime: 5 * 60 * 1000,
     gcTime: 5 * 60 * 1000,
     refetchOnWindowFocus: true,
-  })
+  });
 
-  const handlePreviousPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1))
-  const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, data?.totalPages || 1))
-  const handleAddUser = () => router.push("/users/create")
+  const handlePreviousPage = () =>
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  const handleNextPage = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, data?.totalPages || 1));
+  const handleAddUser = () => router.push("/users/create");
 
-  const getDoBColor = () => "bg-gray-100 text-gray-800 hover:bg-gray-100"
-  const getSkillColor = () => "bg-green-100 text-green-800 hover:bg-green-100"
+  const getDoBColor = () => "bg-blue-100 text-blue-800 hover:bg-blue-100";
+  const getSkillColor = () => "bg-green-100 text-green-800 hover:bg-green-100";
 
-  const handleDelete = (id: string) => {
-    console.log('Delete user with id:', id)
-    // Implement actual delete logic here
-    refetch()
-  }
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading users</div>;
 
-  if (isLoading) return <div>Loading...</div>
-  if (isError) return <div>Error loading users</div>
-
-console.log(data?.data, data)
-
+  console.log(data?.data, data);
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <div className="container mx-auto space-y-6 p-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Users</h1>
-          <p className="text-muted-foreground">Manage and view all users in your system</p>
+          <p className="text-muted-foreground">
+            Manage and view all users in your system
+          </p>
         </div>
         <Button onClick={handleAddUser} className="flex items-center gap-2">
           <Plus className="h-4 w-4" /> Add User
@@ -95,93 +99,126 @@ console.log(data?.data, data)
       </div>
 
       {/* User Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        { data?.data.map((user) => (
-            <Card key={user.id} className="hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-center space-x-3">
-                
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="ghost">
-                      <Link href={`/users/${user.id}`}>Edit</Link>
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="destructive" 
-                      onClick={() => handleDelete(user.id)}
-                    >
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {data?.data.map((user) => (
+          <Card
+            key={user.id}
+            className="h-fit transition-shadow hover:shadow-md"
+          >
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-end space-x-2">
+                <Button size="sm" variant="ghost">
+                  <Link href={`/users/${user.id}`}>Edit</Link>
+                </Button>
+                <DeleteConfirmationDialog
+                  id={user.id}
+                  trigger={
+                    <Button size="sm" variant="destructive">
                       Delete
                     </Button>
+                  }
+                />
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3 pt-0">
+              <div className="min-w-0 flex-1">
+                <div className="mb-2 flex items-center gap-2">
+                  <User className="text-muted-foreground h-4 w-4" />
+                  <h3 className="truncate text-base font-semibold">
+                    {user.name}
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-muted-foreground">DOB:</span>
+                  <Badge variant="secondary" className={getDoBColor()}>
+                    {new Date(user.dateOfBirth).toLocaleDateString()}
+                  </Badge>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="text-muted-foreground flex items-center text-sm">
+                  <Mail className="mr-2 h-3 w-3 flex-shrink-0" />
+                  <span className="truncate">{user.email}</span>
+                </div>
+                <div className="text-muted-foreground flex items-center text-sm">
+                  <Phone className="mr-2 h-3 w-3 flex-shrink-0" />
+                  <span>
+                    {user.ext}
+                    {user.phone}
+                  </span>
+                </div>
+              </div>
+
+              {/* Skills Section */}
+              {user.skills && user.skills.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-muted-foreground flex items-center gap-1 text-sm font-medium">
+                    <Briefcase className="h-3 w-3" />
+                    <span>Skills</span>
                   </div>
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0 space-y-2">
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm truncate">Name: {user.name}</h3>
-                  <div className="flex gap-1 mt-1">
-                    Date of birth:
-                    <Badge variant="secondary" className={getDoBColor()}>
-                      {user.dateOfBirth}
-                    </Badge>
-                  </div>
-                </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Mail className="h-3 w-3 mr-2" /> {user.email}
-                </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Phone className="h-3 w-3 mr-2" /> {user.phone}
-                </div>
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <MapPin className="h-3 w-3 mr-2" /> {user.dateOfBirth}
-                </div>
-                {/* <div className="flex flex-wrap items-center gap-1 text-sm">
-                  Skills:
-                  {user.skills.flatMap((obj) =>
-                    Object.values(obj).flat().map((skill, i) => (
-                      <Badge
-                        key={`${user.id}-${skill}-${i}`}
-                        variant="secondary"
-                        className={getSkillColor()}
+                  <div className="space-y-2">
+                    {user.skills.map((skillGroup, groupIndex) => (
+                      <div
+                        key={`${user.id}-skill-group-${groupIndex}`}
+                        className="space-y-1"
                       >
-                        {skill}
-                      </Badge>
-                    ))
-                  )}
-                </div> */}
-              </CardContent>
-            </Card>
-          ))
-        }
+                        <div className="text-muted-foreground text-xs font-medium capitalize">
+                          {skillGroup.field}
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {skillGroup.tags.map((tag, tagIndex) => (
+                            <Badge
+                              key={`${user.id}-${skillGroup.field}-${tag}-${tagIndex}`}
+                              variant="secondary"
+                              className={getSkillColor()}
+                              title={`${skillGroup.field}: ${tag}`}
+                            >
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handlePreviousPage} 
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handlePreviousPage}
             disabled={currentPage === 1}
           >
             <ChevronLeft className="h-4 w-4" /> Previous
           </Button>
           <div className="flex items-center space-x-1">
-            {data?.totalPages && Array.from({ length: data?.totalPages }, (_, i) => i + 1).map((page) => (
-              <Button
-                key={page}
-                variant={currentPage === page ? "default" : "outline"}
-                size="sm"
-                onClick={() => setCurrentPage(page)}
-                className="w-8 h-8 p-0"
-              >
-                {page}
-              </Button>
-            ))}
+            {data?.totalPages &&
+              Array.from({ length: data?.totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <Button
+                    key={page}
+                    variant={currentPage === page ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setCurrentPage(page)}
+                    className="h-8 w-8 p-0"
+                  >
+                    {page}
+                  </Button>
+                ),
+              )}
           </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleNextPage} 
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNextPage}
             disabled={currentPage === data?.totalPages}
           >
             Next <ChevronRight className="h-4 w-4" />
@@ -189,5 +226,5 @@ console.log(data?.data, data)
         </div>
       </div>
     </div>
-  )
+  );
 }
