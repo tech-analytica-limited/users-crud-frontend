@@ -7,10 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Save, X, Upload, User } from "lucide-react"
 import { toast } from "sonner"
 // import { useToast } from "@/hooks/use-toast"
@@ -202,7 +198,7 @@ export default function EditUserPage() {
     DoB: "",
     skills: "",
     location: "",
-    bio: "",
+    password: "",
     department: "",
     joinDate: "",
   })
@@ -316,7 +312,7 @@ console.log("id",params)
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="location">Date of Birth</Label>
+                  <Label htmlFor="DoB">Date of Birth</Label>
                   {/* <Input
                     id="location"
                     value={formData.location}
@@ -325,18 +321,28 @@ console.log("id",params)
                   /> */}
                       {/* Date of Birth */}
  
-                  <Input id="DoB" type="date" />
+                  <Input value={formData.DoB} onChange={(e) => handleInputChange("DoB", e.target.value)} id="DoB" type="date" />
 
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
            
                 <div className="space-y-2">
-                  <Label htmlFor="location">Skills</Label>
+                  <Label htmlFor="skills">Skills</Label>
                   <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => handleInputChange("location", e.target.value)}
+                    id="skills"
+                    value={formData.skills}
+                    onChange={(e) => handleInputChange("skills", e.target.value)}
+                    placeholder="Enter location"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => handleInputChange("password", e.target.value)}
                     placeholder="Enter location"
                   />
                 </div>
