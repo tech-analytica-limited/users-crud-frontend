@@ -27,11 +27,26 @@ export interface ApiCallFinishedLog extends ApiCallStartLog {
 }
 
 
-export interface Response<T> {
+export interface Response {
   success: boolean;
   message: string;
-  data: T;
+  data: Users[];
   error: null | string;
+  totalPages:number;
+  totalUsers:number;
+  currentPage:number;
+}
+export interface Users {
+   name:string,
+ ext:number,
+ phone:number,
+ email:string,
+ DoB:string,
+ password:string,
+ skills:[
+  {field:string},
+  {tags:[]}
+ ]
 }
 
 

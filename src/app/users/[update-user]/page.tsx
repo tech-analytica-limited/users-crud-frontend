@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowLeft, Save, X, Upload, User } from "lucide-react"
 import { toast } from "sonner"
-// import { useToast } from "@/hooks/use-toast"
 
 // Mock user data (same as users page)
 const mockUsers = [
