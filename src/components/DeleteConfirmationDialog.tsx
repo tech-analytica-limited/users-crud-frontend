@@ -16,7 +16,21 @@ interface DeleteConfirmationDialogProps {
 interface DeleteResponse {
   success: boolean;
   message: string;
-  data?: any;
+  data: {
+    id: string;
+    name: string;
+    ext: string;
+    phone: string;
+    email: string;
+    dateOfBirth: string;
+    password: string;
+    skills: Array<{
+      field: string;
+      tags: string[];
+    }>;
+    createdAt: string;
+    updatedAt: string;
+  };
   error?: string | null;
 }
 
