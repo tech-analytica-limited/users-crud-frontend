@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  users-crud-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: srbon444/users-crud-frontend:latest
+    container_name: users-crud-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+    restart: unless-stopped
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
