@@ -8,7 +8,7 @@ services:
     image: srbon444/users-crud-frontend:latest
     container_name: users-crud-frontend
     ports:
-      - "3000:3000"
+      - "6000:3000"
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
