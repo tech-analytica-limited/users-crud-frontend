@@ -22,46 +22,14 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { get, patch } from "@/lib/api/handlers";
 import { UserSchema, User } from "@/schemas/user";
 import { PhoneInput } from "@/components/phone-input";
+import { UserResponse } from "@/app/[update-user]/types/types";
 
 type UpdateUser = Omit<User, "id">;
 
-interface UserResponse {
-  success: boolean;
-  message: string;
-  data: {
-    id: string;
-    name: string;
-    ext: string;
-    phone: string;
-    email: string;
-    dateOfBirth: string;
-    password: string;
-    skills: Array<{
-      field: string;
-      tags: string[];
-    }>;
-  };
-}
-
-interface UpdateResponse {
-  success: boolean;
-  message: string;
-  data: {
-    id: string;
-    name: string;
-    ext: string;
-    phone: string;
-    email: string;
-    dateOfBirth: string;
-    password: string;
-    skills: Array<{
-      field: string;
-      tags: string[];
-    }>;
+interface UpdateResponse extends UserResponse{
     createdAt: string;
     updatedAt: string;
-  };
-}
+};
 
 export default function UpdateUserPage() {
   const params = useParams();
@@ -136,7 +104,7 @@ export default function UpdateUserPage() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["user", userId] });
       toast.success(data.message || "User updated successfully!");
-      router.push("/users");
+      router.push("/");
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update user");
@@ -241,7 +209,7 @@ export default function UpdateUserPage() {
             The user you&apos;re looking for doesn&apos;t exist.
           </p>
           <Button asChild className="mt-4">
-            <Link href="/users">Back to Users</Link>
+            <Link href="/">Back to Users</Link>
           </Button>
         </div>
       </div>
@@ -250,14 +218,14 @@ export default function UpdateUserPage() {
 
   return (
     <div className="container mx-auto max-w-4xl p-6">
+      <Button variant="ghost" size="sm" asChild>
+        <Link href="/" className="flex items-center gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Users
+        </Link>
+      </Button>
       {/* Header */}
-      <div className="mb-6 flex items-center gap-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/users" className="flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Users
-          </Link>
-        </Button>
+      <div className="mb-6 mt-2 flex items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold">Update User</h1>
           <p className="text-muted-foreground">
@@ -494,7 +462,7 @@ export default function UpdateUserPage() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => router.push("/users")}
+              onClick={() => router.push("/")}
               className="flex items-center gap-2"
             >
               <X className="h-4 w-4" />
@@ -503,7 +471,7 @@ export default function UpdateUserPage() {
             <Button
               type="submit"
               disabled={updateMutation.isPending}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer"
             >
               <Save className="h-4 w-4" />
               {updateMutation.isPending ? "Updating..." : "Update User"}

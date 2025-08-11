@@ -73,7 +73,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
             <Button
               variant="default"
               onClick={() => setIsDialogOpen(false)}
-              className="bg-gray-200 text-black hover:bg-gray-300"
+              className="bg-gray-200 text-black hover:bg-gray-300 cursor-pointer"
             >
               Cancel
             </Button>
@@ -81,6 +81,7 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
               onClick={() => deleteMutation.mutate(id)}
               variant="destructive"
               disabled={deleteMutation.isPending}
+              className="cursor-pointer"
             >
               {deleteMutation.isPending ? "Deleting..." : "Delete"}
             </Button>

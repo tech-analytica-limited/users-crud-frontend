@@ -41,7 +41,7 @@ export const Step4 = ({ onPrev }: Step4Props) => {
       if (response.success) {
         toast.success(response.message || "User created successfully!");
         resetForm();
-        router.push("/users");
+        router.push("/");
       } else {
         toast.error(response.message || "Failed to create user");
       }
@@ -226,7 +226,7 @@ export const Step4 = ({ onPrev }: Step4Props) => {
         <Button
           onClick={handleSubmit}
           disabled={userMutation.isPending}
-          className="bg-primary text-white"
+          className="bg-primary text-white cursor-pointer"
         >
           {userMutation.isPending ? "Creating User..." : "Create User"}
         </Button>

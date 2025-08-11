@@ -50,7 +50,7 @@ const CreateUserPage = () => {
         <div className="bg-white rounded-lg shadow-sm p-6">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
-            <Button variant="ghost" onClick={handleBack}>
+            <Button className="cursor-pointer" variant="ghost" onClick={handleBack}>
               <ArrowLeft className="mr-2 h-4 w-4" /> Back
             </Button>
             <h1 className="text-3xl font-bold">Create New User</h1>
